@@ -280,9 +280,9 @@ class wpoaipmh_WP_bridge
 
 	    $post_type = get_post_type( $post_id );
 	    // Sanity check for post type
-	    if ( !in_array( $post_type, array_keys( self::$post_types ) ) ) {
-	        return;
-	    }
+	    if ( !in_array( $post_type, array_keys( self::get_post_types() ) ) ) {
+			return;
+		}
 
 	    global $wpdb;
 
