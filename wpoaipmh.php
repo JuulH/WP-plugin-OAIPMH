@@ -29,6 +29,8 @@ if ( ! defined( 'WPINC' ) ) {
 if( !defined( 'WPOAIPMH_PLUGIN_LOADED' ) ) {
     define( 'WPOAIPMH_PLUGIN_LOADED', true );
     
+    require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+
     /**
      * The code that runs during plugin activation.
      * This action is documented in includes/class-activator.php
