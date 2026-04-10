@@ -70,8 +70,8 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         $column = $this->get_modified_date_column_name( $record );
         
-        $the_date = $record->{$column};
-        if( $record->modified_date_entered ) {
+        $the_date = $record->{$column} ?? null;
+        if( $record->modified_date_entered ?? false) {
             $the_date = $record->modified_date_entered;
         }
         return $the_date;
@@ -90,13 +90,13 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $do_publication_revision_date = apply_filters( 'wpoaipmh/acf_do_publication_revision_date', true );
         if( $do_publication_revision_date ) {
             $column = 'modified_date_entered';
-            if( ! $record->{$column} ) {
+            if( ! ( $record->{$column} ?? false ) ) {
                 // Fallback if no value present
                 $column = $this->get_published_date_column_name( $record );
             }
         }
         
-        return $record->{$column};
+        return $record->{$column} ?? null;
     }
     
     /**
