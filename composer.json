@@ -9,7 +9,10 @@
 	"license" : "LGPL-3.0+",
 	"type" : "wordpress-plugin",
 	"require" : {
-		"php" : ">=5.5.9"
+		"php" : ">=7.4",
+        "picturae/oai-pmh" : "0.5.20",
+        "laminas/laminas-diactoros" : "*",
+        "laminas/laminas-httphandlerrunner" : "*"
 	},
 	"autoload" : {
 		"files" : [
@@ -20,6 +23,9 @@
 		}
 	},
 	"config" : {
-		"preferred-install" : "dist"
+		"preferred-install" : "dist",
+		"allow-plugins": {
+            "composer/installers": true
+        }
 	}
 }
