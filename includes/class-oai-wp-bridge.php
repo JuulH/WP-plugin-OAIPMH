@@ -98,6 +98,15 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         return $record->{$column} ?? null;
     }
+
+    /**
+     * Returns set prefix. Filterable
+     * 
+     * @return string
+     */
+    protected static function get_set_prefix() {
+        return apply_filters( 'wpoaipmh/set_prefix', self::$set_prefix );
+    }
     
     /**
      * Create meta subset
@@ -629,7 +638,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         foreach( $results as $result ) {
             $statement_result[] = array(
                 'record'        => $result,
-                'record_id'		=> self::$set_prefix.':'.$set.':'.$result->ID,
+                'record_id'		=> self::get_set_prefix().':'.$set.':'.$result->ID,
                 'published_date'=> $this->helper_convertdate( self::get_publisher_published_date( $result ) ),
                 'repository_id'	=> $set,
                 'published'		=> $result->is_publicly_published,
