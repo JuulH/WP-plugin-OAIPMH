@@ -62,7 +62,7 @@ class wpoaipmh_Core {
 		$this->plugin_name = 'wpoaipmh';
 		$this->version = '2.2.8';
 
-		$this->options = get_option( 'plugin_wpoaipmh' );
+		$this->options = get_option( 'plugin_wpoaipmh' ) ?: [];
 
 		$this->load_dependencies();
 		$this->set_locale();
