@@ -100,12 +100,22 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
     }
 
     /**
-     * Returns set prefix. Filterable
+     * Returns set prefix, used for record identifiers. Filterable
      * 
      * @return string
      */
     protected static function get_set_prefix() {
         return apply_filters( 'wpoaipmh/set_prefix', self::$set_prefix );
+    }
+
+    /**
+     * Returns publisher vcard. Filterable
+     * 
+     * @return string
+     */
+    protected static function get_publisher_vcard() {
+        $default = "BEGIN:VCARD\nVERSION:3.0\nN:Leraar24\nFN:Leraar24\nURL:https://www.leraar24.nl\nEND:VCARD";
+        return apply_filters( 'wpoaipmh/publisher_vcard', $default );
     }
     
     /**
@@ -148,7 +158,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
             array('key' => 'xml:lang', 'val' => 'x-none'),
         );
         $lom_version = 'LOMv1.0';
-        $vcard_leraar24 = "BEGIN:VCARD\nVERSION:3.0\nN:Leraar24\nFN:Leraar24\nURL:https://www.leraar24.nl\nEND:VCARD";
+        $vcard_leraar24 = self::get_publisher_vcard();
         $rights_description_langstring_entry = 'Op Leraar24 gepubliceerde (artikel)teksten zijn, tenzij anders aangegeven, onder naamsvermelding vrij te gebruiken, ';
         $rights_description_langstring_entry .= 'te delen, en aan te passen, in lijn met de Creative Commons licentie CC BY-SA. Meer informatie is te vinden op ';
         $rights_description_langstring_entry .= 'https://www.leraar24.nl/disclaimer/.';
