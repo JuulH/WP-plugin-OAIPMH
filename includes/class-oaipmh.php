@@ -36,7 +36,7 @@ class Repository implements InterfaceRepository {
     // @see filter 'wpoaipmh/oai_repositoryName'
     protected $repositoryName = 'Leraar24 OAI'; 
     
-	protected $deletedRecord = ''; // @see http://www.openarchives.org/OAI/openarchivesprotocol.html#DeletedRecords
+	protected $deletedRecord = 'persistent'; // @see http://www.openarchives.org/OAI/openarchivesprotocol.html#DeletedRecords
 	protected $adminEmails = array(); // TODO
 	protected $granularity = 'YYYY-MM-DDThh:mm:ssZ'; // FIXME? implement when reading records
 	protected $compression = null; // TODO
