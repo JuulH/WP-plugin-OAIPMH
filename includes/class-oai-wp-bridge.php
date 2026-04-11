@@ -117,6 +117,15 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $default = "BEGIN:VCARD\nVERSION:3.0\nN:Leraar24\nFN:Leraar24\nURL:https://www.leraar24.nl\nEND:VCARD";
         return apply_filters( 'wpoaipmh/publisher_vcard', $default );
     }
+    
+    /**
+     * Returns copyright and other restrictions value. Filterable
+     * 
+     * @return string
+     */
+    protected static function get_copyright_and_other_restrictions_value() {
+        return apply_filters( 'wpoaipmh/copyright_and_other_restrictions_value', 'yes' );
+    }
 
     /**
      * @return string
@@ -405,7 +414,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         $rights_copyrightandotherrestrictions_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'http://purl.edustandaard.nl/copyrightsandotherrestrictions_nllom_20131202' );
         $rights_copyrightandotherrestrictions_source = $this->helper_meta_create_structure( 'lom:source', array( $rights_copyrightandotherrestrictions_source_langstring ) );
-        $rights_copyrightandotherrestrictions_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'yes' );
+        $rights_copyrightandotherrestrictions_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, self::get_copyright_and_other_restrictions_value() );
         $rights_copyrightandotherrestrictions_value = $this->helper_meta_create_structure( 'lom:value', array( $rights_copyrightandotherrestrictions_value_langstring ) );
         $rights_copyrightandotherrestrictions = $this->helper_meta_create_structure( 'lom:copyrightandotherrestrictions', array( $rights_copyrightandotherrestrictions_source, $rights_copyrightandotherrestrictions_value ) );
         $rights_subs[] = $rights_copyrightandotherrestrictions;
