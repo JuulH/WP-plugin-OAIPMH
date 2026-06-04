@@ -330,40 +330,39 @@ class wpoaipmh_WP_bridge
 
 			$is_published = true;
 			if( !$was_published ) {
+				$published_date = $wpdb->get_var( $wpdb->prepare( 'SELECT published_date FROM '.self::get_table('oai') . ' WHERE ID = %d', $post_id ) );
+				if( ! $published_date ) {
+					$published_date = $post->post_date;
+				}
 				$wpdb->query(
 						$wpdb->prepare(
-								'UPDATE '.self::get_table('oai') . ' SET
-		
-					is_publicly_published = 1,
-					is_ever_publicly_published = 1,
-					published_date = %s
-		
-					WHERE ID = %d',
-		
-								$post->post_modified,
-								$post_id ) );
+							'UPDATE '.self::get_table('oai') . ' SET
+
+						is_publicly_published = 1,
+						is_ever_publicly_published = 1,
+						published_date = %s
+
+						WHERE ID = %d',
+
+							$published_date,
+							$post_id ) );
 			}
-				
 		} else {
 			// Undelete if nessecary
 			if( $was_published ) {
 				$wpdb->query(
 						$wpdb->prepare(
-								'UPDATE '.self::get_table('oai') . ' SET
-		
-					is_publicly_published = 0,
-					published_date = NULL
-		
-					WHERE ID = %d',
-		
-								$post_id ) );
+							'UPDATE '.self::get_table('oai') . ' SET
+
+						is_publicly_published = 0
+
+						WHERE ID = %d',
+
+							$post_id ) );
 			}
 		}
-		/**
-		 * /Handle published
-		 */
-		
-		
+
+
 		/**
 		 * Handle deleted
 		 */
