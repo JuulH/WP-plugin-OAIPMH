@@ -666,7 +666,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
             $statement_result[] = array(
                 'record'        => $result,
                 'record_id'		=> self::get_set_prefix().':'.$set.':'.$result->ID,
-                'published_date'=> $this->helper_convertdate( self::get_publisher_published_date( $result ) ),
+                'modified'		=> $this->helper_convertdate($result->modified_date),
                 'repository_id'	=> $set,
                 'published'		=> $result->is_publicly_published,
                 'deleted'		=> $result->is_deleted,

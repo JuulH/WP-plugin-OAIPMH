@@ -180,7 +180,7 @@ class Repository implements InterfaceRepository {
     
     	$record_header = new Header(
     			$record['record_id'],	//Record ID
-    			$record['published_date'],	//Publish time
+    			$record['modified'],	//Modified time
     			array($record['repository_id']),	//Set spec
     			($record['deleted'] == 1 || $record['published'] == 0 ? true : false)	//Deleted state
     			);
