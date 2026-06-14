@@ -332,7 +332,7 @@ class wpoaipmh_WP_bridge
 			if( !$was_published ) {
 				$published_date = $wpdb->get_var( $wpdb->prepare( 'SELECT published_date FROM '.self::get_table('oai') . ' WHERE ID = %d', $post_id ) );
 				if( ! $published_date ) {
-					$published_date = $post->post_date;
+					$published_date = $post->post_modified;
 				}
 				$wpdb->query(
 						$wpdb->prepare(
