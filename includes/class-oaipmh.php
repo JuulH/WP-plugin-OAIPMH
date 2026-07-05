@@ -39,8 +39,8 @@ class Repository implements InterfaceRepository {
 	protected $deletedRecord = 'persistent'; // @see http://www.openarchives.org/OAI/openarchivesprotocol.html#DeletedRecords
 
     // @see filter 'wpoaipmh/oai_adminEmails'
-	protected $adminEmails = array(); // TODO
-    
+	protected $adminEmails = array();
+
 	protected $granularity = 'YYYY-MM-DDThh:mm:ssZ'; // FIXME? implement when reading records
 	protected $compression = null; // TODO
 	protected $description = null; // TODO
