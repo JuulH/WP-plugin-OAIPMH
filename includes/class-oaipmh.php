@@ -37,7 +37,10 @@ class Repository implements InterfaceRepository {
     protected $repositoryName = 'Leraar24 OAI'; 
     
 	protected $deletedRecord = 'persistent'; // @see http://www.openarchives.org/OAI/openarchivesprotocol.html#DeletedRecords
+
+    // @see filter 'wpoaipmh/oai_adminEmails'
 	protected $adminEmails = array(); // TODO
+    
 	protected $granularity = 'YYYY-MM-DDThh:mm:ssZ'; // FIXME? implement when reading records
 	protected $compression = null; // TODO
 	protected $description = null; // TODO
@@ -70,7 +73,7 @@ class Repository implements InterfaceRepository {
                     apply_filters( 'wpoaipmh/oai_repositoryName', $this->repositoryName ),
         			$this->getEarliestDateStamp(),
         			$this->deletedRecord,
-        			$this->adminEmails,
+        			apply_filters( 'wpoaipmh/oai_adminEmails', $this->adminEmails ),
         			$this->getGranularity(),
         			$this->compression,
         			$this->description);
