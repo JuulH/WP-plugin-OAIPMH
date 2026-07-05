@@ -184,7 +184,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
          * General
          */
         // Title
-        $general_title_string = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_nl, htmlspecialchars( $record->title ) );
+        $general_title_string = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_nl, htmlspecialchars( html_entity_decode( $record->title, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
         $general_title = $this->helper_meta_create_structure( 'lom:title', array( $general_title_string ) );
         
         // Catalogentry
@@ -208,7 +208,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $general_aggregationLevel = $this->helper_meta_create_structure( 'lom:aggregationlevel', array( $general_aggregationLevel_source, $general_aggregationLevel_value ));
         
         // Description
-        $general_description_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_nl, htmlspecialchars( $record->post_excerpt ) );
+        $general_description_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_nl, htmlspecialchars( html_entity_decode( $record->post_excerpt, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
         $general_description = $this->helper_meta_create_structure( 'lom:description', array( $general_description_langstring ), array());
         
         // Build list, add taxonomies later
