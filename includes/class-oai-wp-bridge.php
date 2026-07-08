@@ -481,7 +481,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
         
         // Build metastring
-        return $this->helper_meta_to_string( apply_filters( 'wpoaipmh/oai_record_meta', $this->record_meta ) );
+        return $this->helper_meta_to_string( apply_filters( 'wpoaipmh/oai_record_meta', $this->record_meta, $record ) );
     }
     
     /**
