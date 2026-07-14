@@ -21,6 +21,8 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         'SO'	=> 'e7f1c08f-08fb-48ab-be8e-c131b1bce54a',
         'BVE'	=> 'f3ac3fbb-5eae-49e0-8494-0a44855fff25',
     );
+
+    protected static $aggregation_level_default = '3';
     
     
     /**
@@ -201,8 +203,8 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $general_aggregationLevel_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $lom_version);
         $general_aggregationLevel_source = $this->helper_meta_create_structure( 'lom:source', array( $general_aggregationLevel_source_langstring) );
         
-        //		$general_aggregationLevel_value = $this->helper_meta_create_structure( 'lom:value', array(), array(), '2');
-        $general_aggregationLevel_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, '2');
+        //		$general_aggregationLevel_value = $this->helper_meta_create_structure( 'lom:value', array(), array(), self::$aggregation_level_default);
+        $general_aggregationLevel_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, self::$aggregation_level_default );
         $general_aggregationLevel_value = $this->helper_meta_create_structure( 'lom:value', array( $general_aggregationLevel_value_langstring) );
         
         $general_aggregationLevel = $this->helper_meta_create_structure( 'lom:aggregationlevel', array( $general_aggregationLevel_source, $general_aggregationLevel_value ));
