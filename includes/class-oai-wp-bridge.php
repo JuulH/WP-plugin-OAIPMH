@@ -391,6 +391,9 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
                 $classification_subs[] = $taxon_elem;
             }
         }
+
+        // allow config plugins to add lom:context elements
+        $educational_subs = apply_filters( 'wpoaipmh/oai_educational_subs', $educational_subs, $record );
         
         
         // create lom.educational
@@ -476,8 +479,20 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $classification_taxonpath_source = $this->helper_meta_create_structure( 'lom:source', array( $classification_taxonpath_langstring ) );
         $classification_taxonpath = $this->helper_meta_create_structure( 'lom:taxonpath', array_merge( array( $classification_taxonpath_source ), $classification_subs ) );
         
-        $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_educational_level,  $classification_taxonpath) );
-        $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
+        // $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_educational_level,  $classification_taxonpath) );
+        // $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
+
+        // use taxonomy classification if $classification_subs has data,
+        // otherwise allow to provide it via filter.
+        if ( ! empty( $classification_subs ) ) {
+            $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_educational_level, $classification_taxonpath ) );
+            $this->record_meta = $this->helper_meta_add_sub( $this->record_meta, $newelem_classification );
+        } else {
+            $educational_level_classification = apply_filters( 'wpoaipmh/oai_educational_level_classification', null, $record );
+            if ( $educational_level_classification ) {
+                $this->record_meta = $this->helper_meta_add_sub( $this->record_meta, $educational_level_classification );
+            }
+        }
         
         $newelem_classification = $this->helper_meta_create_structure( 'lom:classification', array( $classification_purpose_access_rights, $classification_taxonpath_access_rights ) );
         $this->record_meta = $this->helper_meta_add_sub($this->record_meta, $newelem_classification);
