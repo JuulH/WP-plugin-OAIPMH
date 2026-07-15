@@ -358,16 +358,15 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $educational_subs[] = $educational_learningResourceType;
         
         // intendedEndUserRole
-        //		$educational_intendedEndUserRole_source = $this->helper_meta_create_structure( 'lom:source', array(), array(), $lom_version );
-        $educational_intendedEndUserRole_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $lom_version );
-        $educational_intendedEndUserRole_source = $this->helper_meta_create_structure( 'lom:source', array( $educational_intendedEndUserRole_source_langstring) );
-        
-        //		$educational_intendedEndUserRole_value = $this->helper_meta_create_structure( 'lom:value', array(), array(), 'teacher' );
-        $educational_intendedEndUserRole_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'teacher' );
-        $educational_intendedEndUserRole_value = $this->helper_meta_create_structure( 'lom:value', array( $educational_intendedEndUserRole_value_langstring ) );
-        
-        $educational_intendedEndUserRole = $this->helper_meta_create_structure( 'lom:intendedenduserrole', array( $educational_intendedEndUserRole_source, $educational_intendedEndUserRole_value) );
-        $educational_subs[] = $educational_intendedEndUserRole;
+        // filterable, supports multiple roles
+        $intended_roles = apply_filters( 'wpoaipmh/oai_intended_end_user_roles', [ 'teacher' ], $record );
+        foreach ( $intended_roles as $role ) {
+            $role_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $lom_version );
+            $role_source            = $this->helper_meta_create_structure( 'lom:source', array( $role_source_langstring ) );
+            $role_value_langstring  = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $role );
+            $role_value             = $this->helper_meta_create_structure( 'lom:value', array( $role_value_langstring ) );
+            $educational_subs[]     = $this->helper_meta_create_structure( 'lom:intendedenduserrole', array( $role_source, $role_value ) );
+        }
         
         // context
         // Taxonomy: Sector
