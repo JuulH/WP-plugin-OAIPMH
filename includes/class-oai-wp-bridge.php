@@ -346,16 +346,15 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         $educational_subs[] = $educational_language;
         
         // learningResourceType
-        //		$educational_learningResourceType_source = $this->helper_meta_create_structure( 'lom:source', array(), array(), 'http://purl.edustandaard.nl/vdex_classification_purpose_czp_20060628.xml' );
-        $educational_learningResourceType_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'https://purl.edustandaard.nl/vdex_learningresourcetype_czp_20060628.xml' );
-        $educational_learningResourceType_source = $this->helper_meta_create_structure( 'lom:source', array( $educational_learningResourceType_source_langstring ) );
-        
-        //		$educational_learningResourceType_value = $this->helper_meta_create_structure( 'lom:value', array(), array(), 'informatiebron' );
-        $educational_learningResourceType_value_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'professionaliseringsmateriaal' );
-        $educational_learningResourceType_value = $this->helper_meta_create_structure( 'lom:value', array( $educational_learningResourceType_value_langstring ) );
-        
-        $educational_learningResourceType = $this->helper_meta_create_structure( 'lom:learningresourcetype', array( $educational_learningResourceType_source, $educational_learningResourceType_value) );
-        $educational_subs[] = $educational_learningResourceType;
+        // filterable, supports multiple types
+        $learning_resource_types = apply_filters( 'wpoaipmh/oai_learning_resource_types', [ 'professionaliseringsmateriaal' ], $record );
+        foreach ( $learning_resource_types as $type ) {
+            $lrt_source_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, 'https://purl.edustandaard.nl/vdex_learningresourcetype_czp_20060628.xml' );
+            $lrt_source            = $this->helper_meta_create_structure( 'lom:source', array( $lrt_source_langstring ) );
+            $lrt_value_langstring  = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $type );
+            $lrt_value             = $this->helper_meta_create_structure( 'lom:value', array( $lrt_value_langstring ) );
+            $educational_subs[]    = $this->helper_meta_create_structure( 'lom:learningresourcetype', array( $lrt_source, $lrt_value ) );
+        }
         
         // intendedEndUserRole
         // filterable, supports multiple roles
