@@ -147,7 +147,7 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
      * @param unknown $metadataFormat
      * @return string
      */
-    protected function get_meta( $record, $no_meta, $metadataFormat = 'lom' ) {
+    protected function get_meta( $record, $no_meta, $metadataFormat = 'lom', $record_id = '' ) {
         
         /**
          * Just the header (which is empty)
@@ -191,7 +191,8 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         
         // Catalogentry
         $general_catalogentry_catalog = $this->helper_meta_create_structure( 'lom:catalog', array(), array(), 'URI');
-        $general_catalogentry_entry_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $record->permalink );
+        // $general_catalogentry_entry_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $record->permalink );
+        $general_catalogentry_entry_langstring = $this->helper_meta_create_structure( 'lom:langstring', array(), $attribs_lang_none, $record_id );
         $general_catalogentry_entry = $this->helper_meta_create_structure( 'lom:entry', array( $general_catalogentry_entry_langstring ) );
         $general_catalogentry = $this->helper_meta_create_structure( 'lom:catalogentry', array( $general_catalogentry_catalog, $general_catalogentry_entry ) );
         
@@ -678,14 +679,16 @@ class wpoaipmh_OAI_WP_bridge extends wpoaipmh_WP_bridge
         }
         
         foreach( $results as $result ) {
+            $record_id = self::get_set_prefix().':'.$set.':'.$result->ID;
+
             $statement_result[] = array(
                 'record'        => $result,
-                'record_id'		=> self::get_set_prefix().':'.$set.':'.$result->ID,
+                'record_id'		=> $record_id,
                 'modified'		=> $this->helper_convertdate($result->modified_date),
                 'repository_id'	=> $set,
                 'published'		=> $result->is_publicly_published,
                 'deleted'		=> $result->is_deleted,
-                'metadata'		=> $this->get_meta( $result, $no_meta, $metadataFormat ),
+                'metadata'		=> $this->get_meta( $result, $no_meta, $metadataFormat, $record_id ),
             );
         }
         
